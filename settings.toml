@@ -8,7 +8,7 @@ precedence = ["directUrls", "github", "jenkins", "spigot", "bukkit"]
 pluginsPath = "plugins"
 
 # Whether to automatically download and replace plugins
-autoDownloads = true
+autoDownloads = false
 
 # Whether to force replacement of plugins regardless of version
 forceRedownload = false
