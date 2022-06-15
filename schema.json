@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/Plugins",
+  "definitions": {
+    "Plugins": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "format": "uri",
+          "qt-uri-protocols": ["https"],
+          "qt-uri-extensions": [".json"]
+        },
+        "plugins": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Plugin"
+          }
+        }
+      },
+      "required": ["$schema", "plugins"],
+      "title": "plugwatch Plugins"
+    },
+    "Plugin": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "precedence": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "(directUrls|github|jenkins|spigot|bukkit)"
+          }
+        },
+        "forcePrecedence": {
+          "type": "boolean"
+        },
+        "filename": {
+          "type": "string",
+          "pattern": "\\.*\\.jar"
+        },
+        "spigotId": {
+          "type": "integer"
+        },
+        "bukkitSlug": {
+          "type": "string"
+        },
+        "githubRepo": {
+          "type": "string",
+          "pattern": ".*\\/.*"
+        },
+        "githubRegEx": {
+          "type": "string"
+        },
+        "githubRegExInverse": {
+          "type": "string"
+        },
+        "jenkinsServer": {
+          "type": "string"
+        },
+        "jenkinsRegEx": {
+          "type": "string"
+        },
+        "jenkinsRegExInverse": {
+          "type": "string"
+        },
+        "stableDirectUrl": {
+          "type": "string",
+          "format": "uri",
+          "qt-uri-protocols": ["https"]
+        },
+        "experimentalDirectUrl": {
+          "type": "string",
+          "format": "uri",
+          "qt-uri-protocols": ["https"]
+        }
+      },
+      "required": ["name"],
+      "title": "Plugin"
+    }
+  }
+}

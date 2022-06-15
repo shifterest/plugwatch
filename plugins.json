@@ -1,0 +1,297 @@
+{
+  "$schema": "https://github.com/shifterest/plugwatch/raw/main/schema.json",
+  "plugins": [
+    {
+      "name": "AdvancedTeleport",
+      "spigotId": 64139
+    },
+    {
+      "githubRepo": "jpenilla/AnnouncerPlus",
+      "jenkinsServer": "jenkins.jpenilla.xyz/job/AnnouncerPlus",
+      "name": "AnnouncerPlus",
+      "spigotId": 81005
+    },
+    {
+      "name": "BestTools",
+      "spigotId": 81490
+    },
+    {
+      "githubRepo": "DieReicheErethons/Brewery",
+      "name": "Brewery",
+      "spigotId": 3082
+    },
+    {
+      "bukkitSlug": "chests-plus-plus",
+      "githubRepo": "ChestsPlusPlus/ChestsPlusPlus",
+      "name": "ChestsPlusPlus",
+      "spigotId": 71355
+    },
+    {
+      "name": "ChestSort",
+      "spigotId": 59773
+    },
+    {
+      "jenkinsRegEx": ".*bukkit\\/.*",
+      "jenkinsServer": "ci.codemc.io/job/pop4959/job/Chunky",
+      "name": "Chunky",
+      "spigotId": 81534
+    },
+    {
+      "jenkinsRegEx": ".*bukkit\\/.*",
+      "jenkinsServer": "ci.codemc.io/job/pop4959/job/ChunkyBorder",
+      "name": "ChunkyBorder",
+      "spigotId": 84278
+    },
+    {
+      "githubRepo": "bananasmoothii/ChunkyPause",
+      "name": "ChunkyPause"
+    },
+    {
+      "githubRepo": "rockyhawk64/CommandPanels",
+      "name": "CommandPanels",
+      "spigotId": 67788
+    },
+    {
+      "name": "Console Spam Fix",
+      "spigotId": 18410
+    },
+    {
+      "githubRepo": "PlayPro/CoreProtect",
+      "name": "CoreProtect",
+      "spigotId": 8631
+    },
+    {
+      "name": "CropChecker",
+      "spigotId": 64044
+    },
+    {
+      "bukkitSlug": "dead-chest",
+      "name": "DeadChest"
+    },
+    {
+      "experimentalDirectUrl": "https://download.discordsrv.com/snapshot",
+      "githubRepo": "DiscordSRV/DiscordSRV",
+      "name": "DiscordSRV",
+      "spigotId": 18494,
+      "stableDirectUrl": "https://download.discordsrv.com/release"
+    },
+    {
+      "bukkitSlug": "economyshopgui",
+      "name": "EconomyShopGUI",
+      "spigotId": 69927
+    },
+    {
+      "githubRegEx": "EssentialsX-",
+      "githubRepo": "EssentialsX/Essentials",
+      "jenkinsRegEx": "EssentialsX-",
+      "jenkinsServer": "ci.ender.zone/job/EssentialsX",
+      "name": "Essentials"
+    },
+    {
+      "githubRegEx": "EssentialsXChat",
+      "githubRepo": "EssentialsX/Essentials",
+      "jenkinsRegEx": "EssentialsXChat",
+      "jenkinsServer": "ci.ender.zone/job/EssentialsX",
+      "name": "EssentialsX"
+    },
+    {
+      "bukkitSlug": "farmingupgrade",
+      "githubRepo": "Torm/FarmingUpgrade",
+      "name": "Farming Upgrade",
+      "spigotId": 76907
+    },
+    {
+      "jenkinsRegEx": ".*spigot\\/.*",
+      "jenkinsServer": "ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master",
+      "name": "floodgate"
+    },
+    {
+      "jenkinsRegEx": ".*spigot\\/.*",
+      "jenkinsServer": "ci.opencollab.dev/job/GeyserMC/job/Floodgate/job/master",
+      "name": "Geyser"
+    },
+    {
+      "name": "GSit",
+      "spigotId": 62325
+    },
+    {
+      "githubRepo": "nkomarn/Harbor",
+      "name": "Harbor",
+      "spigotId": 60088
+    },
+    {
+      "jenkinsServer": "ci.loohpjames.com/job/InteractionVisualizer",
+      "name": "InteractionVisualizer",
+      "spigotId": 77050
+    },
+    {
+      "name": "InvUnload",
+      "spigotId": 60095
+    },
+    {
+      "githubRepo": "Geitenijs/KeepChunks",
+      "name": "KeepChunks",
+      "spigotId": 23307
+    },
+    {
+      "jenkinsRegEx": "bukkit",
+      "jenkinsServer": "ci.lucko.me/job/LuckPerms",
+      "name": "LuckPerms"
+    },
+    {
+      "githubRegEx": "Maintenance\\.jar",
+      "githubRepo": "kennytv/Maintenance",
+      "name": "Maintenance",
+      "spigotId": 40699
+    },
+    {
+      "githubRepo": "jpenilla/MiniMOTD",
+      "jenkinsRegEx": ".*bukkit.*",
+      "jenkinsServer": "jenkins.jpenilla.xyz/job/MiniMOTD",
+      "name": "MiniMOTD",
+      "spigotId": 81254
+    },
+    {
+      "bukkitSlug": "multiverse-core",
+      "jenkinsRegExInverse": "(sources|javadoc)\\.jar",
+      "jenkinsServer": "ci.onarandombox.com/job/Multiverse-Core",
+      "name": "Multiverse-Core"
+    },
+    {
+      "bukkitSlug": "multiverse-inventories",
+      "jenkinsRegExInverse": "(sources|javadoc)\\.jar",
+      "jenkinsServer": "ci.onarandombox.com/job/Multiverse-Inventories",
+      "name": "Multiverse-Inventories"
+    },
+    {
+      "bukkitSlug": "multiverse-netherportals",
+      "jenkinsRegExInverse": "(sources|javadoc)\\.jar",
+      "jenkinsServer": "ci.onarandombox.com/job/Multiverse-NetherPortals",
+      "name": "Multiverse-NetherPortals"
+    },
+    {
+      "bukkitSlug": "multiverse-portals",
+      "jenkinsRegExInverse": "(sources|javadoc)\\.jar",
+      "jenkinsServer": "ci.onarandombox.com/job/Multiverse-Portals",
+      "name": "Multiverse-Portals"
+    },
+    {
+      "name": "MythicMobs",
+      "spigotId": 5702,
+      "stableDirectUrl": "https://www.mythiccraft.io/downloads/mythicmobs/free/"
+    },
+    {
+      "name": "Oneblock",
+      "spigotId": 83215
+    },
+    {
+      "githubRepo": "PlaceholderAPI/PlaceholderAPI",
+      "jenkinsRegExInverse": "(sources|javadoc)\\.jar",
+      "jenkinsServer": "ci.extendedclip.com/job/PlaceholderAPI",
+      "name": "PlaceholderAPI",
+      "spigotId": 6245
+    },
+    {
+      "name": "PlugManX",
+      "spigotId": 88135
+    },
+    {
+      "githubRepo": "dmulloy2/ProtocolLib",
+      "jenkinsServer": "ci.dmulloy2.net/job/ProtocolLib",
+      "name": "ProtocolLib",
+      "spigotId": 1997
+    },
+    {
+      "githubRepo": "SkinsRestorer/SkinsRestorerX",
+      "jenkinsServer": "ci.codemc.io/job/SkinsRestorer/job/SkinsRestorerX-DEV",
+      "name": "SkinsRestorer",
+      "spigotId": 2124
+    },
+    {
+      "jenkinsRegEx": "bukkit",
+      "jenkinsServer": "ci.lucko.me/job/spark",
+      "name": "spark",
+      "spigotId": 57242
+    },
+    {
+      "githubRepo": "jpenilla/squaremap",
+      "jenkinsRegEx": "paper",
+      "jenkinsServer": "jenkins.jpenilla.xyz/job/squaremap",
+      "name": "squaremap"
+    },
+    {
+      "githubRegEx": "squaremap-skins",
+      "githubRepo": "jpenilla/squaremap-addons",
+      "jenkinsRegEx": "squaremap-skins",
+      "name": "squaremap-skins"
+    },
+    {
+      "githubRegEx": "squaremap-worldguard",
+      "githubRepo": "jpenilla/squaremap-addons",
+      "jenkinsRegEx": "squaremap-worldguard",
+      "name": "squaremap-worldguard"
+    },
+    {
+      "githubRepo": "haveric/StackableItems",
+      "name": "StackableItems",
+      "spigotId": 37175
+    },
+    {
+      "jenkinsServer": "ci.codemc.io/job/Nathat23/job/StackMob-5",
+      "name": "StackMob",
+      "spigotId": 29999
+    },
+    {
+      "name": "StarMail",
+      "spigotId": 73406
+    },
+    {
+      "githubRepo": "pmdevita/StayPut",
+      "name": "StayPut",
+      "spigotId": 69564
+    },
+    {
+      "githubRegEx": ".*bukkit.*",
+      "githubRepo": "montlikadani/TabList",
+      "name": "TabList",
+      "spigotId": 46229
+    },
+    {
+      "name": "UltimateAutoRestart",
+      "spigotId": 64414
+    },
+    {
+      "githubRepo": "milkbowl/Vault",
+      "name": "Vault",
+      "spigotId": 34315
+    },
+    {
+      "githubRegEx": ".*bukkit.*",
+      "githubRepo": "2008Choco/VeinMiner",
+      "name": "VeinMiner",
+      "spigotId": 12038
+    },
+    {
+      "githubRepo": "xtkq-is-not-available/VoidGen",
+      "name": "VoidGen",
+      "spigotId": 25391
+    },
+    {
+      "name": "WG-GUI",
+      "spigotId": 57951
+    },
+    {
+      "jenkinsServer": "hub.bg-software.com/job/WildChests",
+      "name": "WildChests"
+    },
+    {
+      "name": "XConomy",
+      "spigotId": 75669
+    },
+    {
+      "bukkitSlug": "xp-blocks",
+      "name": "XP Storage",
+      "spigotId": 74254
+    }
+  ]
+}
