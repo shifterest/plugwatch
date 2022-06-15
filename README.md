@@ -2,6 +2,8 @@
 
 A mediocre Minecraft server plugin updater.
 
+![image](https://user-images.githubusercontent.com/86647101/173960483-3441b095-71d0-489d-8d3f-51eb3f506d47.png)
+
 ## Acknowledgments
 
 Some code is derived from [pluGET](https://github.com/Neocky/pluGET) by [Neocky](https://github.com/Neocky).
