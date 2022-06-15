@@ -60,6 +60,8 @@ def download_artifacts(url, regEx, regExInverse, jarPath):
 
             if jarPath:
                 os.remove(jarPath)
+            if os.path.exists(f"{settings.pluginsPath}/{zipMember}"):
+                os.remove(f"{settings.pluginsPath}/{zipMember}")
             os.rename(
                 f"{settings.pluginsPath}/{zipMember}.temp",
                 f"{settings.pluginsPath}/{zipMember}",
@@ -90,6 +92,8 @@ def download_plugin(url, filename, jarPath):
 
         if jarPath:
             os.remove(jarPath)
+        if os.path.exists(f"{settings.pluginsPath}/{filename}"):
+            os.remove(f"{settings.pluginsPath}/{filename}")
         os.rename(
             f"{settings.pluginsPath}/{filename}.temp",
             f"{settings.pluginsPath}/{filename}",
@@ -170,14 +174,18 @@ def download_precedence(info, name, currentVersion=None, jarPath=None):
                         # Releases
                         if (
                             (
-                                "latestRelease" in info["github"]["releases"]
+                                "latestReleaseUrl" in info["github"]["releases"]
                                 and settings.preferStable
                             )
                             or (
                                 settings.considerStable
                                 and is_stable_more_recent(info["github"]["releases"])
                             )
-                            or "latestPrerelease" not in info["github"]["releases"]
+                            or (
+                                "latestReleaseUrl" in info["github"]["releases"]
+                                and "latestPrereleaseUrl"
+                                not in info["github"]["releases"]
+                            )
                         ):
                             if currentVersion and compare_versions(
                                 info["github"]["releases"]["latestRelease"],
