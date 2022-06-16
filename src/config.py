@@ -22,7 +22,6 @@ settings = Dynaconf(
         Validator("autoDownloads", default=False),
         Validator("forceRedownload", default=False),
         Validator("preferStable", default=True),
-        Validator("considerStable", default=True),
         Validator("preferActions", default=False),
         Validator("delay", default=0),
     ],

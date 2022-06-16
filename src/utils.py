@@ -1,4 +1,5 @@
 import re
+import os
 
 
 # From https://gist.github.com/tianchu/f7835b08d7c788b79ade
@@ -29,41 +30,28 @@ def remove_empty_fields(data_):
     return data_
 
 
-def reg_ex_jar(stringDict, regEx, regExInverse):
-    output = [string for string in stringDict if re.search(r"\.jar$", string)]
+def reg_ex_jar(stringIter, regEx, regExInverse):
+    output = (string for string in stringIter if re.search(r"\.jar$", string))
 
     if regEx:
-        output = [string for string in output if re.search(regEx, string)]
+        output = (string for string in output if re.search(regEx, string))
     if regExInverse:
-        output = [string for string in output if not re.search(regExInverse, string)]
+        output = (string for string in output if not re.search(regExInverse, string))
 
     if output:
-        return output[0]
+        return next(output)
     return None
 
 
-def is_stable_more_recent(releases):
-    releaseTimestamp = releases.get("latestReleaseTimestamp")
-    prereleaseTimestamp = releases.get("latestPrereleaseTimestamp")
-
-    if (
-        releaseTimestamp
-        and prereleaseTimestamp
-        and releaseTimestamp > prereleaseTimestamp
-    ):
-        return True
-    return False
-
-
-def get_filename_from_cd(cd):
+def get_filename(cd):
     if not cd:
         return None
 
     filename = re.sub(r"(\"|'|;)", "", re.findall("filename=(.+)", cd)[0])
-    if len(filename) == 0:
-        return None
 
-    return filename
+    if filename:
+        return filename
+    return None
 
 
 # Derived from pluGET (https://github.com/Neocky/pluGET)
@@ -85,3 +73,15 @@ def compare_versions(latestVersion, currentVersion):
         return False
 
     return latestVersionTuple > currentVersionTuple
+
+
+def write_plugin(content, path, *filesToDelete):
+    # Write to temporary file
+    with open(f"{path}.temp", "wb") as f:
+        f.write(content)
+    for fileToDelete in filesToDelete:
+        if fileToDelete:
+            os.remove(fileToDelete)
+    if path and os.path.exists(path):
+        os.remove(path)
+    os.rename(f"{path}.temp", path)

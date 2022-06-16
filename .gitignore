@@ -131,6 +131,7 @@ dmypy.json
 # my own stuff
 plugins/
 plugins.json
+test.py
 
 # Ignore dynaconf secret files
 .secrets.*
