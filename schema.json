@@ -30,14 +30,14 @@
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
-        "precedence": {
+        "customPrecedence": {
           "type": "array",
           "items": {
             "type": "string",
             "pattern": "(directUrls|github|jenkins|spigot|bukkit)"
           }
         },
-        "forcePrecedence": {
+        "customPrecedenceOnly": {
           "type": "boolean"
         },
         "filename": {

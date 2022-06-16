@@ -103,11 +103,11 @@ def download_plugin(url, filename, jarPath):
 
 
 def download_precedence(info, name, currentVersion=None, jarPath=None):
-    if "precedence" in info and isinstance(info["precedence"], list):
-        if info.get("forcePrecedence"):
-            precedence = info["precedence"]
+    if "customPrecedence" in info and isinstance(info["customPrecedence"], list):
+        if info.get("customPrecedenceOnly"):
+            precedence = info["customPrecedence"]
         else:
-            precedence = info["precedence"] + settings.precedence
+            precedence = info["customPrecedence"] + settings.precedence
     else:
         precedence = settings.precedence
 
