@@ -44,12 +44,12 @@ def process_all_plugins():
     jarInfoList = get_jar_info(includeVersion=True, includePath=True)
 
     if not jarInfoList:
-        print(f"❕ Your plugins path doesn't contain any plugins.\n")
+        print("❕ Your plugins path doesn't contain any plugins.\n")
 
     jsonInfoList = get_json_info()
 
     if not jsonInfoList:
-        print(f"❌ Your plugins.json file doesn't contain any entries! Exiting.\n")
+        print("❌ Your plugins.json file doesn't contain any entries! Exiting.\n")
         sys.exit()
 
     print("📋 Found", len(jsonInfoList), "plugin(s) to process.")
@@ -75,7 +75,7 @@ def process_all_plugins():
                 plugin for plugin in jarInfoList if plugin["name"] == jsonInfo["name"]
             ][0]
 
-            print(f"   🆚 Current version is", jarInfo["version"])
+            print("   🆚 Current version is", jarInfo["version"])
         except IndexError:
             jarInfo = {}
 

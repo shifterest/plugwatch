@@ -230,5 +230,5 @@ def download_precedence(info, name, currentVersion=None, jarPath=None):
                 ):
                     download_plugin(url, filename, jarPath)
                 else:
-                    print(f"   ✨ You already have the latest version!")
+                    print("   ✨ You already have the latest version!")
             break

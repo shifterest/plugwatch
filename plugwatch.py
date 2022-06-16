@@ -21,10 +21,10 @@ if not os.path.exists("plugins.json"):
     print(f"   💡 Generating from your plugins path ({settings.pluginsPath})...")
     if not generate_plugins_json():
         print(
-            f"\n❕ I couldn't find any plugins, so plugins.json won't contain any entries."
+            "\n❕ I couldn't find any plugins, so plugins.json won't contain any entries."
         )
     print(
-        f"\n✅ Done! Please fill it out (refer to https://github.com/shifterest/plugwatch#schema), then run this script again.\n"
+        "\n✅ Done! Please fill it out (refer to https://github.com/shifterest/plugwatch#schema), then run this script again.\n"
     )
     sys.exit()
 
