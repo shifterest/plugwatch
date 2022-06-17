@@ -83,7 +83,7 @@ def download_plugin(url, jarPath, filename):
 
 
 def download_precedence(info, name, jarPath=None):
-    if settings.forceRedownload:
+    if settings.forceDownload:
         precedence = settings.precedence
     else:
         precedence = info.get("moreRecentPrecedence", [])
