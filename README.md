@@ -23,6 +23,8 @@ Some code is derived from [pluGET](https://github.com/Neocky/pluGET) by [Neocky]
 
 ## Usage
 
+**DO NOT RUN THIS SCRIPT ON PLUGINS FROM A RUNNING SERVER.**
+
 ### 1. Clone this repository
 
 Refer to [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) for instructions.
@@ -65,7 +67,7 @@ To process a single plugin, run the script with the plugin name as arguments. Th
 # User agent for browsing the interwebz.
 userAgent = "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36"
 
-# Precedence list for plugin downloads.
+# Precedence list for plugin downloads. This is ignored if forceRedownload is disabled.
 precedence = ["directUrls", "github", "jenkins", "spigot", "bukkit"]
 
 # Path where plugins are processed and downloaded.
@@ -74,7 +76,9 @@ pluginsPath = "plugins"
 # Whether to automatically download and replace plugins.
 autoDownloads = false
 
-# Whether to force download of plugins regardless of version.
+# Whether to force download of plugins regardless of version. This is also the only way
+# to allow downloads from direct URLs, DevBukkit and Jenkins (since they don't provide
+# plugin versions explicitly).
 forceRedownload = false
 
 # Whether to prefer stable builds/releases.

@@ -2,6 +2,7 @@ import json
 import re
 import zipfile
 from io import BytesIO
+import sys
 
 import requests
 from sty import fg
@@ -11,7 +12,11 @@ from src.utils import get_filename, reg_ex_jar, write_plugin
 
 
 def request_api(url, headers={"User-Agent": settings.userAgent}):
-    return json.loads(requests.get(url, headers=headers).content)
+    try:
+        return json.loads(requests.get(url, headers=headers).content)
+    except (TimeoutError, requests.exceptions.ConnectionError):
+        print(fg.red + f"   ❗ Failed to connect to {url}! Exiting." + fg.rs)
+        sys.exit()
 
 
 def request_github_api(url):
@@ -74,10 +79,10 @@ def download_plugin(url, jarPath, filename):
 
 
 def download_precedence(info, name, jarPath=None):
-    if "moreRecentPrecedence" not in info and settings.forceRedownload:
+    if settings.forceRedownload:
         precedence = settings.precedence
     else:
-        precedence = info["moreRecentPrecedence"]
+        precedence = info.get("moreRecentPrecedence", [])
 
     if "customPrecedence" in info:
         if info.get("customPrecedenceOnly"):

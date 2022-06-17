@@ -164,10 +164,6 @@ def get_latest_info(jsonInfo, currentVersion):
             if resourceDetails["file"]["type"] == "external":
                 if "externalUrl" in resourceDetails["file"]:
                     info["spigot"]["url"] = resourceDetails["file"]["externalUrl"]
-                    if currentVersion and compare_versions(
-                        latestVersion, currentVersion
-                    ):
-                        info["moreRecentPrecedence"].append("spigot")
 
                     print(
                         f"   {fg.spigot}➡️ [SpigotMC]{fg.rs} Fetched latest version {latestVersion} (tested on {latestTestedVersion})"
@@ -185,10 +181,16 @@ def get_latest_info(jsonInfo, currentVersion):
                 )
             else:
                 info["spigot"]["url"] = f"{url}/download"
-                info["moreRecentPrecedence"].append("spigot")
                 print(
                     f"   {fg.spigot}➡️ [SpigotMC]{fg.rs} Fetched latest version {latestVersion} (tested on {latestTestedVersion})"
                 )
+
+            if (
+                "url" in info["spigot"]
+                and currentVersion
+                and compare_versions(latestVersion, currentVersion)
+            ):
+                info["moreRecentPrecedence"].append("spigot")
 
     # DevBukkit
     if "bukkitSlug" in jsonInfo:
