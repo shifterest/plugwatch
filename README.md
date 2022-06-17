@@ -2,6 +2,8 @@
 
 A mediocre Minecraft server plugin updater.
 
+This is my first time coding something in Python, or coding anything for public use, so pull requests and suggestions are very welcome.
+
 ![image](https://user-images.githubusercontent.com/86647101/173960483-3441b095-71d0-489d-8d3f-51eb3f506d47.png)
 
 ## Acknowledgments
@@ -10,26 +12,56 @@ Some code is derived from [pluGET](https://github.com/Neocky/pluGET) by [Neocky]
 
 ## Features
 
-| Repository/server | Auto-download | RegEx filtering | Notes                                    |
-| ----------------- | ------------- | --------------- | ---------------------------------------- |
-| SpigotMC          | ✅            | N/A             | Latest version                           |
-| DevBukkit         | ✅            | N/A             | Latest version                           |
-| GitHub releases   | ✅            | ✅ (link)       | Latest stable/pre-release assets         |
-| GitHub Actions    | ✅            | ✅ (filename)   | Latest non-expired artifact              |
-| Jenkins           | ✅            | ✅ (link)       | Latest stable/successful build artifacts |
+plugwatch only supports downloading latest versions of plugins.
+
+| Repository/server | Auto-download | RegEx filtering |
+| ----------------- | ------------- | --------------- |
+| SpigotMC          | ✅            | N/A             |
+| DevBukkit         | ✅ forced[^1] | N/A             |
+| GitHub releases   | ✅ forced[^1] | ✅ link         |
+| GitHub Actions    | ✅ forced[^1] | ✅ filename     |
+| Jenkins           | ✅            | ✅ link         |
 | Direct links      | ✅            | N/A             |
+
+[^1]: `forceDownload` needs to be enabled in `settings.toml`
 
 ## Usage
 
-1. Clone the repository
-2. Create configuration files `settings.toml` and `.secrets.toml` in the same directory (refer [below](#configuration))
-3. Run `py plugwatch.py`
+#### _Do not run this script on plugins from a running server._
+
+### 1. Clone this repository
+
+Refer to [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) for instructions.
+
+### 2. Install Python and its dependencies
+
+Get Python [here](https://www.python.org/downloads). To avoid problems, get a version later than `3.10`.
+
+After installing Python, install the dependencies for this project by executing this command in `/plugwatch`:
+
+```
+py -m pip install -r requirements.txt
+```
+
+### 3. Configuration
+
+Create configuration files `settings.toml` and `.secrets.toml` in `/plugwatch` (refer [below](#configuration)).
+
+Configuration files are not required. Again, refer [below](#configuration) for the default values that will be used without them.
+
+### 4. Execute the script
+
+Execute this command in `/plugwatch`:
+
+```
+py plugwatch.py
+```
 
 If `plugins.json` doesn't exist yet, the script will generate it using the plugins already in your plugins path (default `plugins`).
 
-To generate missing `plugins.json` entries, run `py plugwatch.py --generate` or `py plugwatch.py -g`.
+To generate missing `plugins.json` entries, run the script with `--generate` or `-g` as an argument.
 
-To process a single plugin, run `py plugwatch.py (plugin name)`
+To process a single plugin, run the script with the plugin name as an argument. The plugin name isn't case-sensitive.
 
 ## Configuration
 
@@ -39,7 +71,7 @@ To process a single plugin, run `py plugwatch.py (plugin name)`
 # User agent for browsing the interwebz.
 userAgent = "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36"
 
-# Precedence list for plugin downloads.
+# Precedence list for plugin downloads. This is ignored if forceDownload is disabled.
 precedence = ["directUrls", "github", "jenkins", "spigot", "bukkit"]
 
 # Path where plugins are processed and downloaded.
@@ -48,14 +80,13 @@ pluginsPath = "plugins"
 # Whether to automatically download and replace plugins.
 autoDownloads = false
 
-# Whether to force replacement of plugins regardless of version.
-forceRedownload = false
+# Whether to force download of plugins regardless of version. This is also the only way
+# to allow downloads from direct URLs, DevBukkit and Jenkins (since they don't provide
+# plugin versions explicitly).
+forceDownload = false
 
 # Whether to prefer stable builds/releases.
 preferStable = true
-
-# Whether to consider stable releases/builds if more recent (will be ignored if preferStable is true).
-considerStable = true
 
 # Whether to prefer GitHub Actions artifacts over releases.
 preferActions = false
@@ -67,7 +98,8 @@ delay = 0
 ### `.secrets.toml`
 
 ```ini
-# Token to use for GitHub API requests (scope public_repo is required)
+# Token to use for GitHub API requests (scope public_repo is required). This is required
+# for GitHub Actions artifacts.
 githubToken = "token"
 ```
 
@@ -80,14 +112,18 @@ Using an editor with [JSON schema support](https://json-schema.org/implementatio
   "$schema": "https://github.com/shifterest/plugwatch/raw/main/schema.json",
   "plugins": [
     {
-      // The name of the plugin. This should be generated by the script.
+      // The name of the plugin. This should be generated by the script and should not
+      // contain spaces.
       "name": "PluginName",
 
       // Custom precedence list for plugin downloads.
       "customPrecedence": ["spigot", "github"],
-      // If true, only the repositories/servers from customPrecedence will be iterated.
-      // Otherwise, customPrecedence will be iterated along with precedence in settings.toml.
+
+      // If true, the script will only download from repositories/servers in
+      // customPrecedence. Otherwise, the script will attempt to download from
+      // customPrecedence first.
       "customPrecedenceOnly": false,
+
       // Filename to use for this specific plugin.
       "filename": "CustomPluginName.jar",
 
@@ -95,6 +131,7 @@ Using an editor with [JSON schema support](https://json-schema.org/implementatio
       // webpage and copy the trailing numbers.
       // https://www.spigotmc.org/resources/essentialsx.9089/ -> 9089
       "spigotID": 12345,
+
       // The DevBukkit slug of the plugin. To get the slug of a DevBukkit plugin, go to
       // its webpage and copy everything after the last slash.
       // https://dev.bukkit.org/projects/worldedit -> worldedit
@@ -102,6 +139,7 @@ Using an editor with [JSON schema support](https://json-schema.org/implementatio
 
       // The GitHub repository of the plugin.
       "githubRepo": "github/repo",
+
       // Regular expressions used to filter out a single plugin (if releases/artifacts
       // have multiple files).
       // If the name/link of the file satisfies githubRegEx, it will be included.
@@ -111,6 +149,7 @@ Using an editor with [JSON schema support](https://json-schema.org/implementatio
 
       // The Jenkins server of the plugin.
       "jenkinsServer": "jenkins.server.com/job/PluginName",
+
       // Same as githubRegEx and githubRegExInverse, respectively.
       "jenkinsRegEx": ".*",
       "jenkinsRegExInverse": ".^",
@@ -124,13 +163,3 @@ Using an editor with [JSON schema support](https://json-schema.org/implementatio
 ```
 
 Take note that each entry corresponds to **a single** plugin only. If multiple plugins come from the same repository/server, use regular expressions for each plugin instead.
-
-# Known issues
-
-- GitHub releases with no files throws an error
-
-## To-do
-
-- Allow comparing versions between repositories/servers
-  - Add `forcePrecedence` in configuration (if enabled, will disable this behavior)
-- Code better lol

@@ -1,24 +1,25 @@
 import json
-import os
 import re
 import zipfile
 from io import BytesIO
+import sys
 
 import requests
 from sty import fg
 
 from src.config import settings
-from src.utils import (
-    compare_versions,
-    get_filename_from_cd,
-    is_stable_more_recent,
-    reg_ex_jar,
-)
+from src.utils import get_filename, reg_ex_jar, write_plugin
 
 
-def request_api(url):
-    response = requests.get(url, headers={"User-Agent": settings.userAgent})
-    return json.loads(response.text)
+def request_api(url, headers=None):
+    try:
+        if not headers:
+            headers = {"User-Agent": settings.userAgent}
+
+        return json.loads(requests.get(url, headers=headers).content)
+    except (TimeoutError, requests.exceptions.ConnectionError):
+        print(fg.red + f"   ❗ Failed to connect to {url}! Exiting." + fg.rs)
+        sys.exit()
 
 
 def request_github_api(url):
@@ -27,9 +28,8 @@ def request_github_api(url):
             "Accept": "application/vnd.github.v3+json",
             "Authorization": f"token {settings.githubToken}",
         }
-        response = requests.get(url, headers=headers)
-        return json.loads(response.text)
-    return request_api(url)
+
+    return request_api(url, headers)
 
 
 def download_file(url, headers):
@@ -40,7 +40,7 @@ def download_file(url, headers):
         return None
 
 
-def download_artifacts(url, regEx, regExInverse, jarPath):
+def download_artifacts(url, regEx, regExInverse, jarPath, filename):
     print("   ❕ Downloading and extracting GitHub artifacts")
 
     headers = {
@@ -54,25 +54,17 @@ def download_artifacts(url, regEx, regExInverse, jarPath):
             zipMember = reg_ex_jar(artifactsZip.namelist(), regEx, regExInverse)
             artifact = artifactsZip.open(zipMember, "r")
 
-            # Write to temporary file
-            with open(f"{settings.pluginsPath}/{zipMember}.temp", "wb") as f:
-                f.write(artifact.read())
-
-            if jarPath:
-                os.remove(jarPath)
-            if os.path.exists(f"{settings.pluginsPath}/{zipMember}"):
-                os.remove(f"{settings.pluginsPath}/{zipMember}")
-            os.rename(
-                f"{settings.pluginsPath}/{zipMember}.temp",
-                f"{settings.pluginsPath}/{zipMember}",
-            )
+            if not filename:
+                filename = zipMember
+            write_plugin(artifact.read(), f"{settings.pluginsPath}/{filename}", jarPath)
 
             print(
-                f"{fg.green}   ⬇️ Extracted to {settings.pluginsPath}/{zipMember}{fg.rs}"
+                f"{fg.green}   ⬇️ Extracted to"
+                f" {settings.pluginsPath}/{zipMember}{fg.rs}"
             )
 
 
-def download_plugin(url, filename, jarPath):
+def download_plugin(url, jarPath, filename):
     print(f"   ⬇️ Downloading {url}")
 
     headers = {"User-agent": settings.userAgent}
@@ -81,41 +73,31 @@ def download_plugin(url, filename, jarPath):
     if pluginFile:
         # Custom filename > filename from content-disposition > filename from URL
         if not filename:
-            filename = get_filename_from_cd(
-                pluginFile.headers.get("content-disposition")
-            )
+            filename = get_filename(pluginFile.headers.get("content-disposition"))
         if not filename:
             filename = url.rsplit("/", 1)[1]
 
-        with open(f"{settings.pluginsPath}/{filename}.temp", "wb") as f:
-            f.write(pluginFile.content)
-
-        if jarPath:
-            os.remove(jarPath)
-        if os.path.exists(f"{settings.pluginsPath}/{filename}"):
-            os.remove(f"{settings.pluginsPath}/{filename}")
-        os.rename(
-            f"{settings.pluginsPath}/{filename}.temp",
-            f"{settings.pluginsPath}/{filename}",
-        )
+        write_plugin(pluginFile.content, f"{settings.pluginsPath}/{filename}", jarPath)
 
         print(f"{fg.green}   ⬇️ Saved to {settings.pluginsPath}/{filename}{fg.rs}")
 
 
-def download_precedence(info, name, currentVersion=None, jarPath=None):
-    if "customPrecedence" in info and isinstance(info["customPrecedence"], list):
+def download_precedence(info, name, jarPath=None):
+    if settings.forceDownload:
+        precedence = settings.precedence
+    else:
+        precedence = info.get("moreRecentPrecedence", [])
+
+    if "customPrecedence" in info:
         if info.get("customPrecedenceOnly"):
             precedence = info["customPrecedence"]
         else:
-            precedence = info["customPrecedence"] + settings.precedence
-    else:
-        precedence = settings.precedence
+            precedence = info["customPrecedence"] + precedence
 
     for repo in precedence:
         if repo in info:
             url = None
-            filename = None
-            moreRecent = False
+            filename = info.get("filename")
 
             match repo:
                 # URLs
@@ -129,106 +111,56 @@ def download_precedence(info, name, currentVersion=None, jarPath=None):
                         url = info["directUrls"]["experimentalDirectUrl"]
                 # SpigotMC
                 case "spigot":
-                    filename = (
-                        re.sub("[^a-z0-9]", "", name, count=0, flags=re.I)
-                        + "-spigot-"
-                        + str(info["spigot"]["latestVersion"])
-                        + ".jar"
-                    )
-
-                    if currentVersion and compare_versions(
-                        info["spigot"]["latestVersion"], currentVersion
-                    ):
-                        moreRecent = True
-
-                    if "latestVersionExternalUrl" in info["spigot"]:
-                        url = info["spigot"]["latestVersionExternalUrl"]
-                    else:
-                        url = info["spigot"]["latestVersionUrl"]
+                    if not filename:
+                        filename = (
+                            re.sub("[^a-z0-9]", "", name, count=0, flags=re.I)
+                            + "-"
+                            + info["spigot"]["version"]
+                            + ".jar"
+                        )
+                    url = info["spigot"]["url"]
                 # DevBukkit
                 case "bukkit":
-                    filename = (
-                        re.sub("[^a-z0-9]", "", name, count=0, flags=re.I)
-                        + "-bukkit.jar"
-                    )
-
-                    url = info["bukkit"]["latestVersionUrl"]
+                    if not filename:
+                        filename = (
+                            re.sub("[^a-z0-9]", "", name, count=0, flags=re.I) + ".jar"
+                        )
+                    url = info["bukkit"]["url"]
                 # GitHub
                 case "github":
+                    # Actions
                     if settings.githubToken and (
-                        ("artifacts" in info["github"] and settings.preferActions)
-                        or "releases" not in info["github"]
+                        ("artifactUrl" in info["github"] and settings.preferActions)
+                        or all(
+                            url not in info["github"]
+                            for url in ("releaseUrl", "prereleaseUrl")
+                        )
                     ):
-                        regEx = info["github"].get("regEx", ".*")
-                        regExInverse = info["github"].get("regExInverse", ".^")
-
-                        # Actions
                         download_artifacts(
-                            info["github"]["latestArtifactUrl"],
-                            regEx,
-                            regExInverse,
+                            info["github"]["artifactUrl"],
+                            info["github"].get("regEx", ".*"),
+                            info["github"].get("regExInverse", ".^"),
                             jarPath,
+                            filename,
                         )
                         break
-                    if "releases" in info["github"]:
-                        # Releases
-                        if (
-                            (
-                                "latestReleaseUrl" in info["github"]["releases"]
-                                and settings.preferStable
-                            )
-                            or (
-                                settings.considerStable
-                                and is_stable_more_recent(info["github"]["releases"])
-                            )
-                            or (
-                                "latestReleaseUrl" in info["github"]["releases"]
-                                and "latestPrereleaseUrl"
-                                not in info["github"]["releases"]
-                            )
-                        ):
-                            if currentVersion and compare_versions(
-                                info["github"]["releases"]["latestRelease"],
-                                currentVersion,
-                            ):
-                                moreRecent = True
-
-                            url = info["github"]["releases"]["latestReleaseUrl"]
-                        else:
-                            if currentVersion and compare_versions(
-                                info["github"]["releases"]["latestPrerelease"],
-                                currentVersion,
-                            ):
-                                moreRecent = True
-
-                            url = info["github"]["releases"]["latestPrereleaseUrl"]
+                    # Releases
+                    if (
+                        "releaseUrl" in info["github"] and settings.preferStable
+                    ) or "prereleaseUrl" not in info["github"]:
+                        url = info["github"]["releaseUrl"]
                     else:
-                        continue
+                        url = info["github"]["prereleaseUrl"]
                 # Jenkins
                 case "jenkins":
-                    regEx = info.get("jenkinsRegEx", ".*")
-                    regExInverse = info.get("jenkinsRegExInverse", ".^")
-
                     if (
-                        "stable" in info["jenkins"] and settings.preferStable
-                    ) or "successful" not in info["jenkins"]:
-                        url = info["jenkins"]["latestStableBuildUrl"]
+                        "stableBuildUrl" in info["jenkins"] and settings.preferStable
+                    ) or "successfulBuildUrl" not in info["jenkins"]:
+                        url = info["jenkins"]["stableBuildUrl"]
                     else:
-                        url = info["jenkins"]["latestSuccessfulBuildUrl"]
+                        url = info["jenkins"]["successfulBuildUrl"]
 
-            if isinstance(info.get("filename"), str):
-                filename = info.get("filename")
+            if url:
+                download_plugin(url, jarPath, filename)
 
-            if isinstance(url, str):
-                if (
-                    not jarPath
-                    or moreRecent
-                    or (not moreRecent and settings.forceRedownload)
-                    or repo == "directUrls"
-                    or repo == "bukkit"
-                    or repo == "jenkins"
-                ):
-                    download_plugin(url, filename, jarPath)
-                else:
-                    print(f"   ✨ You already have the latest version!")
             break

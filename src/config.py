@@ -6,7 +6,10 @@ settings = Dynaconf(
     validators=[
         Validator(
             "userAgent",
-            default="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
+            default=(
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,"
+                " like Gecko) Chrome/102.0.0.0 Safari/537.36"
+            ),
         ),
         Validator(
             "precedence",
@@ -20,9 +23,8 @@ settings = Dynaconf(
         ),
         Validator("pluginsPath", default="plugins"),
         Validator("autoDownloads", default=False),
-        Validator("forceRedownload", default=False),
+        Validator("forceDownload", default=False),
         Validator("preferStable", default=True),
-        Validator("considerStable", default=True),
         Validator("preferActions", default=False),
         Validator("delay", default=0),
     ],

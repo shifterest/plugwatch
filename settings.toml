@@ -1,26 +1,23 @@
-# User agent for browsing the interwebz
+# User agent for browsing the interwebz.
 userAgent = "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36"
 
-# Precedence for downloads
+# Precedence list for plugin downloads.
 precedence = ["directUrls", "github", "jenkins", "spigot", "bukkit"]
 
-# Path where plugins are processed and downloaded
+# Path where plugins are processed and downloaded.
 pluginsPath = "plugins"
 
-# Whether to automatically download and replace plugins
-autoDownloads = false
+# Whether to automatically download and replace plugins.
+autoDownloads = true
 
-# Whether to force replacement of plugins regardless of version
-forceRedownload = false
+# Whether to force download of plugins regardless of version.
+forceDownload = true
 
-# Whether to prefer stable builds/releases
+# Whether to prefer stable builds/releases.
 preferStable = true
 
-# Whether to consider stable releases/builds if more recent (will be ignored if preferStable is true)
-considerStable = true
-
-# Whether to prefer GitHub Actions artifacts over releases
+# Whether to prefer GitHub Actions artifacts over releases.
 preferActions = false
 
-# Delay for checking updates between plugins in seconds
+# Delay for checking updates between plugins in seconds.
 delay = 0

@@ -37,7 +37,7 @@ def process_plugin(name):
         sys.exit()
 
     if settings.autoDownloads:
-        download_precedence(latestInfo, name, currentVersion, jarPath)
+        download_precedence(latestInfo, name, jarPath)
 
 
 def process_all_plugins():
@@ -59,13 +59,13 @@ def process_all_plugins():
         if diff > 1:
             print(f"❕ {diff} of your plugins don't have plugins.json entries")
         else:
-            print("❕ one of your plugins doesn't have a plugins.json entry")
+            print("❕ One of your plugins doesn't have a plugins.json entry")
     elif len(jarInfoList) < len(jsonInfoList):
         diff = len(jsonInfoList) - len(jarInfoList)
         if diff > 1:
             print(f"❕ {diff} plugins.json entries do not exist in your plugins path.")
         else:
-            print("❕ one plugins.json entry does not exist in your plugins path.")
+            print("❕ One plugins.json entry does not exist in your plugins path.")
 
     for jsonInfo in jsonInfoList:
         print("\n🔍 Processing", jsonInfo["name"] + "...")
@@ -85,7 +85,6 @@ def process_all_plugins():
             download_precedence(
                 latestInfo,
                 jsonInfo["name"],
-                jarInfo.get("version"),
                 jarInfo.get("jarPath"),
             )
 
