@@ -55,7 +55,7 @@ def cook_breakfast(jarPath, **args):
 
 
 def get_jar_info(**args):
-    jarPaths = list(glob(rf"{settings.pluginsPath}\*.jar"))
+    jarPaths = list(glob(rf"{settings.pluginsPath}/*.jar"))
     jarInfoList = []
 
     if jarPaths:
