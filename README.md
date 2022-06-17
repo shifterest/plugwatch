@@ -23,7 +23,7 @@ plugwatch only supports downloading latest versions of plugins.
 | Jenkins           | ✅            | ✅ link         |
 | Direct links      | ✅            | N/A             |
 
-[^1]: `forceDownload` needs to be enabled in `settings.toml`
+[^1]: `forceDownloads` needs to be enabled in `settings.toml`
 
 ## Usage
 
@@ -71,7 +71,7 @@ To process a single plugin, run the script with the plugin name as an argument. 
 # User agent for browsing the interwebz.
 userAgent = "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36"
 
-# Precedence list for plugin downloads. This is ignored if forceDownload is disabled.
+# Precedence list for plugin downloads. This is ignored if forceDownloads is disabled.
 precedence = ["directUrls", "github", "jenkins", "spigot", "bukkit"]
 
 # Path where plugins are processed and downloaded.
@@ -83,7 +83,7 @@ autoDownloads = false
 # Whether to force download of plugins regardless of version. This is also the only way
 # to allow downloads from direct URLs, DevBukkit and Jenkins (since they don't provide
 # plugin versions explicitly).
-forceDownload = false
+forceDownloads = false
 
 # Whether to prefer stable builds/releases.
 preferStable = true

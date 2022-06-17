@@ -23,7 +23,7 @@ settings = Dynaconf(
         ),
         Validator("pluginsPath", default="plugins"),
         Validator("autoDownloads", default=False),
-        Validator("forceDownload", default=False),
+        Validator("forceDownloads", default=False),
         Validator("preferStable", default=True),
         Validator("preferActions", default=False),
         Validator("delay", default=0),
