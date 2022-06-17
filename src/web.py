@@ -11,8 +11,11 @@ from src.config import settings
 from src.utils import get_filename, reg_ex_jar, write_plugin
 
 
-def request_api(url, headers={"User-Agent": settings.userAgent}):
+def request_api(url, headers=None):
     try:
+        if not headers:
+            headers = {"User-Agent": settings.userAgent}
+
         return json.loads(requests.get(url, headers=headers).content)
     except (TimeoutError, requests.exceptions.ConnectionError):
         print(fg.red + f"   ❗ Failed to connect to {url}! Exiting." + fg.rs)
@@ -51,9 +54,9 @@ def download_artifacts(url, regEx, regExInverse, jarPath, filename):
             zipMember = reg_ex_jar(artifactsZip.namelist(), regEx, regExInverse)
             artifact = artifactsZip.open(zipMember, "r")
 
-            write_plugin(
-                artifact.read(), f"{settings.pluginsPath}/{zipMember}", jarPath
-            )
+            if not filename:
+                filename = zipMember
+            write_plugin(artifact.read(), f"{settings.pluginsPath}/{filename}", jarPath)
 
             print(
                 f"{fg.green}   ⬇️ Extracted to {settings.pluginsPath}/{zipMember}{fg.rs}"
@@ -141,7 +144,7 @@ def download_precedence(info, name, jarPath=None):
                         )
                         break
                     # Releases
-                    elif (
+                    if (
                         "releaseUrl" in info["github"] and settings.preferStable
                     ) or "prereleaseUrl" not in info["github"]:
                         url = info["github"]["releaseUrl"]
@@ -158,7 +161,5 @@ def download_precedence(info, name, jarPath=None):
 
             if url:
                 download_plugin(url, jarPath, filename)
-            else:
-                print(f"   ✨ You already have the latest version!")
 
             break

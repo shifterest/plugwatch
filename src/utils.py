@@ -39,7 +39,10 @@ def reg_ex_jar(stringIter, regEx, regExInverse):
         output = (string for string in output if not re.search(regExInverse, string))
 
     if output:
-        return next(output)
+        try:
+            return next(output)
+        except StopIteration:
+            pass
     return None
 
 
