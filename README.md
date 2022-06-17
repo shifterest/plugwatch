@@ -10,16 +10,18 @@ Some code is derived from [pluGET](https://github.com/Neocky/pluGET) by [Neocky]
 
 ## Features
 
-| Repository/server | Auto-download | RegEx filtering |
-| ----------------- | ------------- | --------------- |
-| SpigotMC          | ✅            | N/A             |
-| DevBukkit         | ✅            | N/A             |
-| GitHub releases   | ✅            | ✅ (link)       |
-| GitHub Actions    | ✅            | ✅ (filename)   |
-| Jenkins           | ✅            | ✅ (link)       |
-| Direct links      | ✅            | N/A             |
+plugwatch only supports downloading latest versions of plugins.
 
-<sub>plugwatch only supports downloading latest versions of plugins.</sub>
+| Repository/server | Auto-download   | RegEx filtering |
+| ----------------- | --------------- | --------------- |
+| SpigotMC          | ✅              | N/A             |
+| DevBukkit         | ✅ (forced)[^1] | N/A             |
+| GitHub releases   | ✅ (forced)[^1] | ✅ (link)       |
+| GitHub Actions    | ✅ (forced)[^1] | ✅ (filename)   |
+| Jenkins           | ✅              | ✅ (link)       |
+| Direct links      | ✅              | N/A             |
+
+[^1]: `forcedRedownload` needs to be enabled in `settings.toml`
 
 ## Usage
 

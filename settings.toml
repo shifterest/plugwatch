@@ -11,7 +11,7 @@ pluginsPath = "plugins"
 autoDownloads = true
 
 # Whether to force download of plugins regardless of version.
-forceRedownload = false
+forceRedownload = true
 
 # Whether to prefer stable builds/releases.
 preferStable = true
