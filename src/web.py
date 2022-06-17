@@ -59,7 +59,8 @@ def download_artifacts(url, regEx, regExInverse, jarPath, filename):
             write_plugin(artifact.read(), f"{settings.pluginsPath}/{filename}", jarPath)
 
             print(
-                f"{fg.green}   ⬇️ Extracted to {settings.pluginsPath}/{zipMember}{fg.rs}"
+                f"{fg.green}   ⬇️ Extracted to"
+                f" {settings.pluginsPath}/{zipMember}{fg.rs}"
             )
 
 

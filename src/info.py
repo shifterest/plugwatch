@@ -166,23 +166,28 @@ def get_latest_info(jsonInfo, currentVersion):
                     info["spigot"]["url"] = resourceDetails["file"]["externalUrl"]
 
                     print(
-                        f"   {fg.spigot}➡️ [SpigotMC]{fg.rs} Fetched latest version {latestVersion} (tested on {latestTestedVersion})"
+                        f"   {fg.spigot}➡️ [SpigotMC]{fg.rs} Fetched latest version"
+                        f" {latestVersion} (tested on {latestTestedVersion})"
                     )
                     print(
-                        f"   {fg.spigot}➡️ [SpigotMC]{fg.rs} Download redirects to external URL. Auto-download is not guaranteed to work."
+                        f"   {fg.spigot}➡️ [SpigotMC]{fg.rs} Download redirects to"
+                        " external URL. Auto-download is not guaranteed to work."
                     )
                 else:
                     print(
-                        f"   {fg.spigot}➡️ [SpigotMC]{fg.rs} Download is external but no URL is provided. Auto-download isn't possible."
+                        f"   {fg.spigot}➡️ [SpigotMC]{fg.rs} Download is external but"
+                        " no URL is provided. Auto-download isn't possible."
                     )
             elif resourceDetails["file"]["type"] != ".jar":
                 print(
-                    f"   {fg.spigot}➡️ [SpigotMC]{fg.rs} Download is not a JAR file. Auto-download isn't possible (but might be soon)."
+                    f"   {fg.spigot}➡️ [SpigotMC]{fg.rs} Download is not a JAR file."
+                    " Auto-download isn't possible (but might be soon)."
                 )
             else:
                 info["spigot"]["url"] = f"{url}/download"
                 print(
-                    f"   {fg.spigot}➡️ [SpigotMC]{fg.rs} Fetched latest version {latestVersion} (tested on {latestTestedVersion})"
+                    f"   {fg.spigot}➡️ [SpigotMC]{fg.rs} Fetched latest version"
+                    f" {latestVersion} (tested on {latestTestedVersion})"
                 )
 
             if (
@@ -227,7 +232,8 @@ def get_latest_info(jsonInfo, currentVersion):
                 )
 
                 print(
-                    f"   {fg.github}➡️ [GitHub]{fg.rs} Fetched latest release {latestReleaseVersion}"
+                    f"   {fg.github}➡️ [GitHub]{fg.rs} Fetched latest release"
+                    f" {latestReleaseVersion}"
                 )
 
             # Latest pre-release
@@ -241,7 +247,8 @@ def get_latest_info(jsonInfo, currentVersion):
 
                 if latestReleaseTimestamp > latestPrereleaseTimestamp:
                     print(
-                        f"   {fg.github}❕ [GitHub]{fg.rs} Latest release is more recent than latest pre-release"
+                        f"   {fg.github}❕ [GitHub]{fg.rs} Latest release is more recent"
+                        " than latest pre-release"
                     )
                 else:
                     info["github"]["prereleaseUrl"] = reg_ex_jar(
@@ -251,7 +258,8 @@ def get_latest_info(jsonInfo, currentVersion):
                     )
 
                     print(
-                        f"   {fg.github}➡️ [GitHub]{fg.rs} Fetched latest pre-release {latestPrereleaseVersion}"
+                        f"   {fg.github}➡️ [GitHub]{fg.rs} Fetched latest pre-release"
+                        f" {latestPrereleaseVersion}"
                     )
 
             if currentVersion and compare_versions(latestVersion, currentVersion):
@@ -307,7 +315,8 @@ def get_latest_info(jsonInfo, currentVersion):
         # Skip if both builds are the same
         if lastStableBuild["number"] == lastSuccessfulBuild["number"]:
             print(
-                f"   {fg.jenkins}❕ [Jenkins]{fg.rs} Last stable build is also the last successful build"
+                f"   {fg.jenkins}❕ [Jenkins]{fg.rs} Last stable build is also the last"
+                " successful build"
             )
         else:
             info["jenkins"]["successfulBuildUrl"] = reg_ex_jar(
